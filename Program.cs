@@ -6,8 +6,10 @@ namespace SudokuSolver
     {
         public static void Main(string[] args)
         {
-            int[,] inputBoard = { };
+            Parser parser = new(args);
+            List<List<int>> inputBoard = parser.GetInputFileData();
             _ = new Solver(inputBoard);
+            parser.PrintBoard(inputBoard);
         }
     }
 }

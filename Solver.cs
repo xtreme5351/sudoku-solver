@@ -1,29 +1,38 @@
 ﻿using System;
+
 namespace SudokuSolver
 {
     public class Solver
     {
-        private int[,] board;
+        private List<List<int>> board;
         private int boardLength;
-        private int rowIndex = 0;
-        private int colIndex = 0;
+        private Tuple<int, int>? rowColIndexes;
 
-        public Solver(int[,] inputBoard)
+        public Solver(List<List<int>> inputBoard)
         {
             board = inputBoard;
-            boardLength = board.Length;
+            boardLength = board.Count;
             Solve();
         }
-
-        private void Solve()
+        private Tuple<int, int> FindFirstZero()
         {
             for (int row = 0; row < boardLength; row++)
             {
                 for (int col = 0; col < boardLength; col++)
                 {
-
+                    List<int> temp = board.ElementAt(row);
+                    if (temp.ElementAt(col) == 0)
+                    {
+                        return new Tuple<int, int>(row, col);
+                    }
                 }
             }
+            return new Tuple<int, int>(-1, -1);
         }
+
+        private void Solve()
+        {
+            rowColIndexes = FindFirstZero();
+        } 
     }
 }
