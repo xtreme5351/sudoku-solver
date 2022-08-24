@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace SudokuSolver
 {
@@ -69,6 +70,16 @@ namespace SudokuSolver
             {
                 Console.WriteLine(String.Join("|", output));
             }
+        }
+
+        public void OutputFileData(List<List<int>> input)
+        {
+            List<string> output = new();
+            for (int i = 0; i < input.Count; i++)
+            {
+                output.Add(String.Join('|', input[i]));
+            }
+            File.WriteAllLines(inputArgs[1], output);
         }
     }
 }

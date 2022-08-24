@@ -8,8 +8,11 @@ namespace SudokuSolver
         {
             Parser parser = new(args);
             List<List<int>> inputBoard = parser.GetInputFileData();
-            _ = new Solver(inputBoard);
+            Solver solver = new(inputBoard);
+            solver.Solve();
+            Console.WriteLine("Solved!");
             parser.PrintBoard(inputBoard);
+            parser.OutputFileData(inputBoard);
         }
     }
 }
