@@ -8,6 +8,7 @@ using System.IO;
 namespace SudokuSolver
 {
     // Derived from PCC :P
+    // Just a class to manage IO, ik "Parser" is a slightly misleading name but oh well.
     public class Parser
     {
         private readonly string[] inputArgs;
@@ -22,7 +23,9 @@ namespace SudokuSolver
             argsDict = new();
             CheckInputs();
         }
-
+        /* Checking all inputs, including file paths and the input board itself
+        For " sudokuSolver.exe input.txt output.txt " to work, the input and output files have to be in the same location as the program binary
+         */
         public void CheckInputs()
         {
             try
@@ -51,6 +54,7 @@ namespace SudokuSolver
             }
         }
 
+        // Unpack input file data into correct data structure
         public List<List<int>> GetInputFileData()
         {
             string[] tempOutput = File.ReadAllLines(inputArgs[0]);
@@ -64,14 +68,7 @@ namespace SudokuSolver
             return finalOutput;
         }
 
-        public void PrintBoard(List<List<int>> input)
-        {
-            foreach (List<int> output in input)
-            {
-                Console.WriteLine(String.Join("|", output));
-            }
-        }
-
+        // Write to output file, | is used as the separator for the output which creates disconnect between input and output, will fix.
         public void OutputFileData(List<List<int>> input)
         {
             List<string> output = new();

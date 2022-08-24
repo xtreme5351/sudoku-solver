@@ -13,24 +13,7 @@ namespace SudokuSolver
             boardLength = board.Count;
         }
 
-        /*
-        private Tuple<int, int> FindFirstZero()
-        {
-            for (int row = 0; row < boardLength; row++)
-            {
-                for (int col = 0; col < boardLength; col++)
-                {
-                    List<int> temp = board.ElementAt(row);
-                    if (temp.ElementAt(col) == 0)
-                    {
-                        return new Tuple<int, int>(row, col);
-                    }
-                }
-            }
-            return new Tuple<int, int>(-1, -1);
-        }
-        */
-
+        // Function to check if number is in a row
         private bool IsNumInRow(int n, int row)
         {
             for (int col = 0; col < boardLength; col++)
@@ -43,6 +26,7 @@ namespace SudokuSolver
             return false;
         }
 
+        // Function to check if number is in a column
         private bool IsNumInCol(int n, int col)
         {
             for (int row = 0; row < boardLength; row++)
@@ -55,6 +39,7 @@ namespace SudokuSolver
             return false;
         }
 
+        // Function to check if number is in the same 3x3 box in a sudoku grid
         private bool IsNumInLocalBox(int n, int row, int col)
         {
             int localRow = row - row % 3;
@@ -72,11 +57,21 @@ namespace SudokuSolver
             return false;
         }
 
+        /* Is only valid is all are false, which makes sense.
+         If any are true then that number cannot be placed in that location as it violates sudoku rules
+        */
+
         private bool IsValid(int n, int row, int col)
         {
             return !IsNumInRow(n, row) && !IsNumInCol(n, col) && !IsNumInLocalBox(n, row, col);
         }
 
+        /* Recursive method to solve the board
+        Goes through each available (non-zero) square, checks if number n can be inserted into that location.
+        If it is a valid insertion, the method calls itself to insert a number into the next available square and keeps happening until either the row is full or false is returned
+        Returning false allows the program to backtrack to the last "good" location i.e., last location where the insertion of n was valid and the previous "bad" location is set to 0
+        The program then tries other values of n and the process repeats until either the board is solved or there are no solutions.
+        */
         public bool Solve()
         {
             for (int y = 0; y < boardLength; y++)
