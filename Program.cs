@@ -12,11 +12,11 @@ namespace SudokuSolver
             
             // Formatting console output to make it look nice
             FormatOutput("Input board", true);
-            PrintBoard(inputBoard);
+            parser.PrintBoard(inputBoard);
             solver.Solve();
             FormatOutput("Solution");
             FormatOutput("Saved in output.txt", true);
-            PrintBoard(inputBoard);
+            parser.PrintBoard(inputBoard);
             
             parser.OutputFileData(inputBoard);
         }
@@ -29,15 +29,6 @@ namespace SudokuSolver
             if (endOutput)
             {
                 Console.WriteLine("===================");
-            }
-        }
-
-        // Print the board with | separators just for neatness
-        public static void PrintBoard(List<List<int>> input)
-        {
-            foreach (List<int> output in input)
-            {
-                Console.WriteLine(String.Join("|", output));
             }
         }
     }

@@ -28,6 +28,7 @@ namespace SudokuSolver
          */
         public void CheckInputs()
         {
+            // Check input file
             try
             {
                 argsDict.Add("inputPath", inputArgs[0]);
@@ -52,12 +53,34 @@ namespace SudokuSolver
                     throw invalidBoardFormat;
                 }
             }
+            // Check output file
+            try
+            {
+                argsDict.Add("outputPath", inputArgs[1]);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw missingFileError;
+            }
+            if (Path.GetExtension(Path.GetFullPath(inputArgs[1])) != ".txt")
+            {
+                throw invalidFileError;
+            }
+
+            try
+            {
+                argsDict.Add("charSep", inputArgs[2]);
+            } 
+            catch (IndexOutOfRangeException)
+            {
+                argsDict.Add("charSep", "");
+            }
         }
 
         // Unpack input file data into correct data structure
         public List<List<int>> GetInputFileData()
         {
-            string[] tempOutput = File.ReadAllLines(inputArgs[0]);
+            string[] tempOutput = File.ReadAllLines(argsDict["inputPath"]);
             List<List<int>> finalOutput = new();
             foreach (string line in tempOutput)
             {
@@ -74,9 +97,18 @@ namespace SudokuSolver
             List<string> output = new();
             for (int i = 0; i < input.Count; i++)
             {
-                output.Add(String.Join('|', input[i]));
+                output.Add(String.Join(argsDict["charSep"], input[i]));
             }
-            File.WriteAllLines(inputArgs[1], output);
+            File.WriteAllLines(argsDict["outputPath"], output);
+        }
+
+        // Print the board with custom separators that were specified
+        public void PrintBoard(List<List<int>> input)
+        {
+            foreach (List<int> output in input)
+            {
+                Console.WriteLine(String.Join(argsDict["charSep"], output));
+            }
         }
     }
 }
